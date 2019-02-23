@@ -1,0 +1,29 @@
+INTERFACES:
+Light:
+	-setFloorLight(int floor, bool light);
+	-setInternalLight(int floor, bool light);
+	-setExternalLight(int floor, DIR dir, bool light);
+	-setDoorOpenLight(bool light);
+Buttons:
+	-init();
+	-send(Button button);
+Main:
+	-recieve(Button button){};
+	-clearOrdersAtFloor(int floor);
+	-recieve(Order order,
+		   int cost)
+Network:
+	-requestCost(Order order, ID recieverId);
+	-sendCost(int Cost, ID recieverId);
+	-delegateOrder(Order order, ID recieverId);
+	-clearOrders(int floor);
+Orders:
+	-registerOrder(Order order);
+	-clearOrders(int floor);
+	-getOrders();
+Elevator State Machine:
+	-init();
+DATASTRUCTURES:
+Order{int floor, InputType type, bool isGlobal, time timeInitiated};
+InputType{Dir dir, bool isInternal};
+Button{int floor, InputType type}

@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+
+\title{Sanntid Routines}
+\author{ }
+\date{January 2017}
+
+\begin{document}
+%\newcommand\tab[1][1cm]{\hspace*{#1}}\textbf{}
+
+\maketitle
+
+\section{Button is pressed, calling elevator to floor}
+-Button module detects the button press\\
+-Button module alerts main module of the press\\
+-Main checks to see if order already exists in system\\
+    \tab -if already exsists: make sure light on button is on and exit routine.\\
+    \tab -if not: continue routine\\
+-Main checks to see if order is internal:\\
+   \tab  -if order is internal: add order as local in Orders module, turn on light and exit routine\\
+    \tab -if order is external: continoue routine\\
+-Add order as global locally in Orders module and adds timestamp\\
+-Make sure light for button is on\\
+-Request cost of order from other nodes and wait for answer\\
+-Calculate cost of order for current node and choose executing node based on costs calculated and recieved\\
+   \tab  -If cost lowest on local node: add order as local in Orders module\\
+    \tab -If cost lowest on external node:  Delegate order to external node\\
+
+\section{External node requests cost for Order}
+-Main module recieves request\\
+-Main module adds order as global in Orders module\\
+-Main calculates cost based on orders in Orders module\\
+-Main sends back its cost to the requesting node\\
+
+\section{External node delegates order}
+-Main recieves delegation\\
+-Main adds order as local to Orders module\\
+
+\section{Node starts up}
+-Main calls all init() functions\\
+-Elevator init() makes elevator go to top floor\\
+-Elevator goes down to all floors, stops and opens door at each\\
+-Elevator alerts Main that startup is complete\\
+
+\section{Elevator stops at floor and opens door}
+-Elevator module alerts Main that elevator is stopping at floor\\
+-Main calls clearOrders(floor) in Orders module\\
+-Main calls sendClearOrders(floor) in network interface\\
+
+\section{Elevator state machine operation}
+-If orders exist in the direction elevator is already going: keep going\\
+-If no orders exist: stop at next floor\\
+-If orders only exist opposite of direction of travel: turn around\\
+-If elevator reaches floor with orders either internal or in direction of travel: stop and open door\\
+-If elevator reaches top or bottom floor: Stop and open door if orders exist\\
+-If elevator is stopped: check for orders: if found go there: else stay stopped\\
+
+\section{Global order times out}
+-Main notices timeout\\
+-Main adds order as local in Orders module\\
+\end{document}
